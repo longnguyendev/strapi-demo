@@ -15,25 +15,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Login Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+    - name: Login to Private Docker Registry
+      run: echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
         
-    - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v1
-      id: buildx
-      
-    - name: Build the Docker image
-      uses: docker/build-push-actionv@v2
-      id: docker_build
-      with:
-        context: ./
-        file: ./Dockerfile
-        builder: ${{ steps.buildx.outputs.name }}
-        push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/strapi-demo
-    - name: Verify
-      run: echo ${{ steps.docker_build.outputs.digest }}
+    - name: Build Docker image
+      run: docker build -t longnguyendev214/strapidemo:latest .
+
+    - name: Push Docker image to Docker Hub
+      run: docker push longnguyendev214/strapidemo:latest
      
