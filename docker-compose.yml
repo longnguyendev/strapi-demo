@@ -3,7 +3,7 @@ services:
   strapi:
     container_name: strapi-docker
     build: .
-    image: strapi-demo
+    image: longnguyendev214/strapidemo:latest
     restart: unless-stopped
     env_file: .env
     environment:
