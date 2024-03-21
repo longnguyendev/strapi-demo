@@ -23,6 +23,6 @@ COPY --from=build /opt/app ./
 ENV PATH /opt/node_modules/.bin:$PATH
 
 RUN chown -R node:node /opt/app
-USER root
+USER node
 EXPOSE 1337
 CMD ["yarn", "start"]
